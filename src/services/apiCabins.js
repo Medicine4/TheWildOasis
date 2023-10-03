@@ -10,3 +10,5 @@ export async function getCabins() {
 
   return data;
 }
+
+export async function deleteCabin(id) {}
