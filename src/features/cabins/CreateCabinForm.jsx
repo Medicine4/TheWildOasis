@@ -38,9 +38,9 @@ const FormRow2 = styled.div`
   }
 `;
 
-const Label = styled.label`
-  font-weight: 500;
-`;
+// const Label = styled.label`
+//   font-weight: 500;
+// `;
 
 // const Error = styled.span`
 //   font-size: 1.4rem;
@@ -68,7 +68,8 @@ function CreateCabinForm() {
   });
 
   function onSubmit(data) {
-    mutate(data);
+    // console.log(data);
+    mutate({ ...data, image: data.image[0] });
   }
 
   function onError(error) {
@@ -144,10 +145,15 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow2>
-        <Label htmlFor="image">Cabin photo</Label>
-        <FileInput id="image" accept="image/*" />
-      </FormRow2>
+      <FormRow label="Cabin photo" error={errors?.image?.message}>
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register("image", {
+            required: "必填",
+          })}
+        />
+      </FormRow>
 
       <FormRow2>
         {/* type is an HTML attribute! */}
