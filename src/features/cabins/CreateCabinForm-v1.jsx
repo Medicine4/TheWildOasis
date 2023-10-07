@@ -1,6 +1,7 @@
+import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { createEditCabin } from "../../services/apiCabins";
+import { createCabin } from "../../services/apiCabins";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import Input from "../../ui/Input";
@@ -11,24 +12,54 @@ import Textarea from "../../ui/Textarea";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
+const FormRow2 = styled.div`
+  display: grid;
+  align-items: center;
+  grid-template-columns: 24rem 1fr 1.2fr;
+  gap: 2.4rem;
+
+  padding: 1.2rem 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-grey-100);
+  }
+
+  &:has(button) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+  }
+`;
+
+// const Label = styled.label`
+//   font-weight: 500;
+// `;
+
+// const Error = styled.span`
+//   font-size: 1.4rem;
+//   color: var(--color-red-700);
+// `;
+
 CreateCabinForm.propTypes = {
   cabinToEdit: PropTypes.object,
 };
 
-function CreateCabinForm({ cabinToEdit = {} }) {
-  const { id: editId, ...editValues } = cabinToEdit;
-  const isEditSession = Boolean(editId);
-
-  const { register, handleSubmit, reset, getValues, formState } = useForm({
-    defaultValues: isEditSession ? editValues : {},
-  });
+function CreateCabinForm() {
+  const { register, handleSubmit, reset, getValues, formState } = useForm();
   const { errors } = formState;
 
   const queryClient = useQueryClient();
 
-  // 创建新cabin
-  const { mutate: createCabin, isLoading: isCreating } = useMutation({
-    mutationFn: createEditCabin,
+  const { mutate, isLoading: isCreating } = useMutation({
+    mutationFn: createCabin,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["cabins"],
@@ -41,29 +72,9 @@ function CreateCabinForm({ cabinToEdit = {} }) {
     },
   });
 
-  // 修改cabin
-  const { mutate: editCabin, isLoading: isEditing } = useMutation({
-    mutationFn: ({ newCabinData, id }) => createEditCabin(newCabinData, id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["cabins"],
-      });
-      toast.success("Cabin successful edited!");
-      reset();
-    },
-    onError: (err) => {
-      toast.error(err.message);
-    },
-  });
-
-  const isWorking = isCreating || isEditing;
-
   function onSubmit(data) {
-    const image = typeof data.image === "string" ? data.image : data.image[0];
-
-    if (isEditSession)
-      editCabin({ newCabinData: { ...data, image: image }, id: editId });
-    else createCabin({ ...data, image: image });
+    // console.log(data);
+    mutate({ ...data, image: data.image[0] });
   }
 
   function onError(error) {
@@ -76,7 +87,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Input
           type="text"
           id="name"
-          disabled={isWorking}
           {...register("name", {
             required: "必填",
           })}
@@ -87,7 +97,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Input
           type="number"
           id="maxCapacity"
-          disabled={isWorking}
           {...register("maxCapacity", {
             required: "必填",
             min: {
@@ -102,7 +111,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Input
           type="number"
           id="regularPrice"
-          disabled={isWorking}
           {...register("regularPrice", {
             required: "必填",
             min: {
@@ -117,7 +125,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Input
           type="number"
           id="discount"
-          disabled={isWorking}
           defaultValue={0}
           {...register("discount", {
             required: "必填",
@@ -136,7 +143,6 @@ function CreateCabinForm({ cabinToEdit = {} }) {
         <Textarea
           type="number"
           id="description"
-          disabled={isWorking}
           defaultValue=""
           {...register("description", {
             required: "必填",
@@ -149,22 +155,18 @@ function CreateCabinForm({ cabinToEdit = {} }) {
           id="image"
           accept="image/*"
           {...register("image", {
-            required: isEditSession ? false : "必填",
+            required: "必填",
           })}
         />
       </FormRow>
 
-      <FormRow>
-        <div>
-          {/* type is an HTML attribute! */}
-          <Button variation="secondary" type="reset">
-            取消
-          </Button>
-          <Button disabled={isWorking}>
-            {isEditSession ? "编辑" : "创建"}
-          </Button>
-        </div>
-      </FormRow>
+      <FormRow2>
+        {/* type is an HTML attribute! */}
+        <Button variation="secondary" type="reset">
+          取消
+        </Button>
+        <Button disabled={isCreating}>创建</Button>
+      </FormRow2>
     </Form>
   );
 }

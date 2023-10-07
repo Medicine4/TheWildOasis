@@ -11,15 +11,23 @@ export async function getCabins() {
   return data;
 }
 
-export async function createCabin(newCabin) {
+export async function createEditCabin(newCabin, id) {
+  const hasNewImage = newCabin.image?.startsWith?.(supabaseUrl);
   const imageName = `${Math.random()}-${newCabin.image.name}`.replace("/", "");
-  const imageUrl = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+  const imageUrl = hasNewImage
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
-  // 1. 创建table里面的cabin，image上传的是storage里面图片的url
-  const { data, error } = await supabase
-    .from("cabins")
-    .insert([{ ...newCabin, image: imageUrl }])
-    .select();
+  // 1. 创建or修改table里面的cabin，image上传的是storage里面图片的url
+  let query = supabase.from("cabins");
+
+  // A) props不存在id == 创建cabin
+  if (!id) query = query.insert([{ ...newCabin, image: imageUrl }]);
+
+  // B) props存在id == 修改cabin
+  if (id) query = query.update({ ...newCabin, image: imageUrl }).eq("id", id);
+
+  const { data, error } = await query.select().single();
 
   if (error) {
     console.log(error);
@@ -33,7 +41,7 @@ export async function createCabin(newCabin) {
 
   // 3. 如果图片存储出错，那么取消本次cabin上传
   if (StorageError) {
-    await supabase.from("cabins").delete().eq("id", data[0].id);
+    await supabase.from("cabins").delete().eq("id", data.id);
     console.log(StorageError);
     throw new Error(
       "Cabin image could not be uploaded and cabin was not created!"
