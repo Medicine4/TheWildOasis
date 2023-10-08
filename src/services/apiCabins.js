@@ -12,9 +12,9 @@ export async function getCabins() {
 }
 
 export async function createEditCabin(newCabin, id) {
-  const hasNewImage = newCabin.image?.startsWith?.(supabaseUrl);
+  const hasHttpImage = newCabin.image?.startsWith?.(supabaseUrl);
   const imageName = `${Math.random()}-${newCabin.image.name}`.replace("/", "");
-  const imageUrl = hasNewImage
+  const imageUrl = hasHttpImage
     ? newCabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
@@ -33,6 +33,8 @@ export async function createEditCabin(newCabin, id) {
     console.log(error);
     throw new Error("Cabins could not be created!");
   }
+
+  if (hasHttpImage) return data;
 
   // 2. 将图片存入storage里面
   const { error: StorageError } = await supabase.storage

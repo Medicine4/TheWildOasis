@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
+import { useCreateCabin } from "./useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -50,6 +51,10 @@ CabinRow.propTypes = {
 
 function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false);
+  const { isDeleting, deleteCabin } = useDeleteCabin();
+  const { isCreating, createCabin } = useCreateCabin();
+
+  const isWorking = isDeleting || isCreating;
 
   const {
     id: carbinId,
@@ -58,9 +63,19 @@ function CabinRow({ cabin }) {
     regularPrice,
     discount,
     image,
+    description,
   } = cabin;
 
-  const { isDeleting, deleteCabin } = useDeleteCabin();
+  function handleDuplicate() {
+    createCabin({
+      name: `Copy of ${name}`,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+      description,
+    });
+  }
 
   return (
     <>
@@ -75,9 +90,12 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
+          <button onClick={handleDuplicate} disabled={isWorking}>
+            复制
+          </button>
           <button onClick={() => setShowForm((show) => !show)}>修改</button>
 
-          <button onClick={() => deleteCabin(carbinId)} disabled={isDeleting}>
+          <button onClick={() => deleteCabin(carbinId)} disabled={isWorking}>
             删除
           </button>
         </div>
