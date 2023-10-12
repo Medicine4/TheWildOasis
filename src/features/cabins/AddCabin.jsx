@@ -2,7 +2,7 @@
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm";
 import Modal from "../../ui/Modal";
-import CabinTable from "./CabinTable";
+// import CabinTable from "./CabinTable";
 
 function AddCabin() {
   return (
@@ -12,9 +12,9 @@ function AddCabin() {
       </Modal.Open>
       <Modal.Window name="create-form">
         <CreateCabinForm />
-      </Modal.Window>
+        {/* </Modal.Window>
       <Modal.Window name="cabin">
-        <CabinTable />
+        <CabinTable /> */}
       </Modal.Window>
     </Modal>
   );
