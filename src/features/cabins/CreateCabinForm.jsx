@@ -111,8 +111,9 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           {...register("discount", {
             required: "必填",
             validate: {
-              positive: (value) =>
-                value <= getValues("regularPrice") || "折扣必须小于等于价格",
+              positive: (value) => {
+                value <= getValues("regularPrice") || "折扣必须小于等于价格";
+              },
             },
           })}
         />

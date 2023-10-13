@@ -6,17 +6,19 @@ import Modal from "../../ui/Modal";
 
 function AddCabin() {
   return (
-    <Modal>
-      <Modal.Open opens="create-form">
-        <Button>添加一个新房型</Button>
-      </Modal.Open>
-      <Modal.Window name="create-form">
-        <CreateCabinForm />
-        {/* </Modal.Window>
+    <div>
+      <Modal>
+        <Modal.Open opens="create-form">
+          <Button>添加一个新房型</Button>
+        </Modal.Open>
+        <Modal.Window name="create-form">
+          <CreateCabinForm />
+          {/* </Modal.Window>
       <Modal.Window name="cabin">
-        <CabinTable /> */}
-      </Modal.Window>
-    </Modal>
+    <CabinTable /> */}
+        </Modal.Window>
+      </Modal>
+    </div>
   );
 }
 // function AddCabin() {
