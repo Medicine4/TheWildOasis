@@ -7,6 +7,8 @@ import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 
 const Img = styled.img`
   display: block;
@@ -77,31 +79,35 @@ function CabinRow({ cabin }) {
       ) : (
         <span>&mdash;</span>
       )}
-      <div>
-        <button onClick={handleDuplicate} disabled={isWorking}>
-          复制
-        </button>
 
-        <Modal>
-          <Modal.Open opens="edit">
-            <button>修改</button>
-          </Modal.Open>
-          <Modal.Window name="edit">
-            <CreateCabinForm cabinToEdit={cabin} />
-          </Modal.Window>
+      <Modal>
+        <Menus.Menu>
+          <Menus.Toggle id={cabinId} />
 
-          <Modal.Open opens="delete">
-            <button>删除</button>
-          </Modal.Open>
-          <Modal.Window name="delete">
-            <ConfirmDelete
-              resourceName={cabin.name}
-              onConfirm={() => deleteCabin(cabinId)}
-              disabled={isWorking}
-            />
-          </Modal.Window>
-        </Modal>
-      </div>
+          <Menus.List id={cabinId}>
+            <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+              复制
+            </Menus.Button>
+
+            <Modal.Open opens="edit">
+              <Menus.Button icon={<HiPencil />}>编辑</Menus.Button>
+            </Modal.Open>
+            <Modal.Open opens="delete">
+              <Menus.Button icon={<HiTrash />}>删除</Menus.Button>
+            </Modal.Open>
+          </Menus.List>
+        </Menus.Menu>
+        <Modal.Window name="edit">
+          <CreateCabinForm cabinToEdit={cabin} />
+        </Modal.Window>
+        <Modal.Window name="delete">
+          <ConfirmDelete
+            resourceName={cabin.name}
+            onConfirm={() => deleteCabin(cabinId)}
+            disabled={isWorking}
+          />
+        </Modal.Window>
+      </Modal>
     </Table.Row>
   );
 }
