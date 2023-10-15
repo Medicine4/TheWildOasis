@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
+import PropTypes from "prop-types";
+import { zhCN } from "date-fns/locale";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
@@ -34,17 +36,21 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
+BookingRow.propTypes = {
+  booking: PropTypes.object,
+};
+
 function BookingRow({
   booking: {
-    id: bookingId,
-    created_at,
+    // id: bookingId,
+    // created_at,
     startDate,
     endDate,
     numNights,
-    numGuests,
+    // numGuests,
     totalPrice,
     status,
-    guests: { fullName: guestName, email },
+    guests: { fullName: guestName, tel },
     cabins: { name: cabinName },
   },
 }) {
@@ -60,19 +66,19 @@ function BookingRow({
 
       <Stacked>
         <span>{guestName}</span>
-        <span>{email}</span>
+        <span>{tel}</span>
       </Stacked>
 
       <Stacked>
         <span>
           {isToday(new Date(startDate))
-            ? "Today"
+            ? "今天"
             : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} night stay
+          &rarr; {numNights} 晚
         </span>
         <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy")}
+          {format(new Date(startDate), "yyyy MMM do", { locale: zhCN })} &mdash;{" "}
+          {format(new Date(endDate), "MMM do", { locale: zhCN })}
         </span>
       </Stacked>
 

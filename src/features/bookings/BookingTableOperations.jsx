@@ -8,22 +8,22 @@ function BookingTableOperations() {
       <Filter
         filterField="status"
         options={[
-          { value: "all", label: "All" },
-          { value: "checked-out", label: "Checked out" },
-          { value: "checked-in", label: "Checked in" },
-          { value: "unconfirmed", label: "Unconfirmed" },
+          { value: "all", label: "全部" },
+          { value: "checked-out", label: "已退房" },
+          { value: "checked-in", label: "已入住" },
+          { value: "unconfirmed", label: "未确认" },
         ]}
       />
 
       <SortBy
         options={[
-          { value: "startDate-desc", label: "Sort by date (recent first)" },
-          { value: "startDate-asc", label: "Sort by date (earlier first)" },
+          { value: "startDate-desc", label: "按照入住？日期降序" },
+          { value: "startDate-asc", label: "按照入住？日期升序" },
           {
             value: "totalPrice-desc",
-            label: "Sort by amount (high first)",
+            label: "按照总价格降序",
           },
-          { value: "totalPrice-asc", label: "Sort by amount (low first)" },
+          { value: "totalPrice-asc", label: "按照总价格升序" },
         ]}
       />
     </TableOperations>

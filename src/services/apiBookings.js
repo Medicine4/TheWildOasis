@@ -1,6 +1,24 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
+export async function getBookings() {
+  let query = supabase
+    .from("bookings")
+    .select(
+      "id, created_at, startDate, endDate, numNights, numGuests, status, totalPrice, cabins(name), guests(fullName, tel)",
+      { count: "exact" }
+    );
+
+  const { data, error, count } = await query;
+
+  if (error) {
+    console.log(error);
+    throw new Error("订单加载失败！");
+  }
+
+  return { data, count };
+}
+
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")
@@ -10,7 +28,7 @@ export async function getBooking(id) {
 
   if (error) {
     console.error(error);
-    throw new Error("Booking not found");
+    throw new Error("找不到订单！");
   }
 
   return data;
@@ -26,7 +44,7 @@ export async function getBookingsAfterDate(date) {
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded");
+    throw new Error("订单加载失败！");
   }
 
   return data;
@@ -43,7 +61,7 @@ export async function getStaysAfterDate(date) {
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded");
+    throw new Error("订单加载失败！");
   }
 
   return data;
@@ -65,7 +83,7 @@ export async function getStaysTodayActivity() {
 
   if (error) {
     console.error(error);
-    throw new Error("Bookings could not get loaded");
+    throw new Error("订单加载失败！");
   }
   return data;
 }
@@ -80,7 +98,7 @@ export async function updateBooking(id, obj) {
 
   if (error) {
     console.error(error);
-    throw new Error("Booking could not be updated");
+    throw new Error("订单更新失败！");
   }
   return data;
 }
@@ -91,7 +109,7 @@ export async function deleteBooking(id) {
 
   if (error) {
     console.error(error);
-    throw new Error("Booking could not be deleted");
+    throw new Error("订单删除失败！");
   }
   return data;
 }

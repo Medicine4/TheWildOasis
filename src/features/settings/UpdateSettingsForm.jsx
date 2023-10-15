@@ -28,7 +28,7 @@ function UpdateSettingsForm() {
 
   return (
     <Form>
-      <FormRow label="Minimum nights/booking">
+      <FormRow label="最少入住天数/预定">
         <Input
           type="number"
           id="min-nights"
@@ -37,7 +37,7 @@ function UpdateSettingsForm() {
           onBlur={(e) => handleUpdate(e, "minBookingLength")}
         />
       </FormRow>
-      <FormRow label="Maximum nights/booking">
+      <FormRow label="最多入住天数/预定">
         <Input
           type="number"
           id="max-nights"
@@ -46,7 +46,7 @@ function UpdateSettingsForm() {
           onBlur={(e) => handleUpdate(e, "maxBookingLength")}
         />
       </FormRow>
-      <FormRow label="Maximum guests/booking">
+      <FormRow label="最少房客数量/预定">
         <Input
           type="number"
           id="max-guests"
@@ -55,7 +55,7 @@ function UpdateSettingsForm() {
           onBlur={(e) => handleUpdate(e, "maxGuestsPerBooking")}
         />
       </FormRow>
-      <FormRow label="Breakfast price">
+      <FormRow label="早餐价格">
         <Input
           type="number"
           id="breakfast-price"

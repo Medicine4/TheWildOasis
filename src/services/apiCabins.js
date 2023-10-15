@@ -1,11 +1,11 @@
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getCabins() {
-  let { data, error } = await supabase.from("cabins").select("*");
+  const { data, error } = await supabase.from("cabins").select("*");
 
   if (error) {
     console.log(error);
-    throw new Error("Cabins could not be loaded!");
+    throw new Error("房型信息加载失败！");
   }
 
   return data;
@@ -31,7 +31,7 @@ export async function createEditCabin(newCabin, id) {
 
   if (error) {
     console.log(error);
-    throw new Error("Cabins could not be created!");
+    throw new Error("新房型创建失败！");
   }
 
   if (hasHttpImage) return data;
@@ -58,7 +58,7 @@ export async function deleteCabin(id) {
 
   if (error) {
     console.log(error);
-    throw new Error("Cabins could not be deleted!");
+    throw new Error("房型删除失败！");
   }
 
   return data;
