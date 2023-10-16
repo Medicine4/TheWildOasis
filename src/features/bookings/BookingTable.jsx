@@ -3,6 +3,7 @@ import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import Spinner from "../../ui/Spinner";
 import { useBookings } from "./useBookings";
+import Pagination from "../../ui/Pagination";
 // import { useSearchParams } from "react-router-dom";
 
 function BookingTable() {
@@ -14,24 +15,6 @@ function BookingTable() {
   // const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
-
-  // // 1)
-  // const filterValue = searchParams.get("status") || "all";
-
-  // let filteredBookings;
-  // if (filterValue === "all") filteredBookings = bookings;
-  // if (filterValue === "checked-out")
-  //   filteredBookings = bookings.filter(
-  //     (booking) => booking.status === "checked-out"
-  //   );
-  // if (filterValue === "checked-in")
-  //   filteredBookings = bookings.filter(
-  //     (booking) => booking.status === "checked-in"
-  //   );
-  // if (filterValue === "unconfirmed")
-  //   filteredBookings = bookings.filter(
-  //     (booking) => booking.status === "unconfirmed"
-  //   );
 
   return (
     <Menus>
@@ -53,7 +36,7 @@ function BookingTable() {
         />
 
         <Table.Footer>
-          <span>Footer</span>
+          <Pagination count={5} />
         </Table.Footer>
       </Table>
     </Menus>
