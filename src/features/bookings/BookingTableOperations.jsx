@@ -17,8 +17,8 @@ function BookingTableOperations() {
 
       <SortBy
         options={[
-          { value: "startDate-desc", label: "按照入住？日期降序" },
-          { value: "startDate-asc", label: "按照入住？日期升序" },
+          { value: "startDate-desc", label: "按照入住时间（晚-早）" },
+          { value: "startDate-asc", label: "按照入住时间（早-晚）" },
           {
             value: "totalPrice-desc",
             label: "按照总价格降序",
