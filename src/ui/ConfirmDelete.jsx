@@ -31,11 +31,8 @@ ConfirmDelete.propTypes = {
 function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
   return (
     <StyledConfirmDelete>
-      <Heading as="h3">Delete {resourceName}</Heading>
-      <p>
-        Are you sure you want to delete this {resourceName} permanently? This
-        action cannot be undone.
-      </p>
+      <Heading as="h3">删除{resourceName}</Heading>
+      <p>你确定要永久删除{resourceName}吗? 删除后不可恢复。</p>
 
       <div>
         <Button

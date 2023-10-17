@@ -1,13 +1,24 @@
 import styled from "styled-components";
-import { format, isToday } from "date-fns";
 import PropTypes from "prop-types";
+import { format, isToday } from "date-fns";
 import { zhCN } from "date-fns/locale";
+import {
+  HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
+  HiEye,
+  HiTrash,
+} from "react-icons/hi2";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
+import Modal from "../../ui/Modal";
+import Menus from "../../ui/Menus";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import ConfirmDelete from "../../ui/ConfirmDelete";
+import { useDeleteBooking } from "./useDeleteBooking";
+import { useNavigate } from "react-router-dom";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -42,7 +53,7 @@ BookingRow.propTypes = {
 
 function BookingRow({
   booking: {
-    // id: bookingId,
+    id: bookingId,
     // created_at,
     startDate,
     endDate,
@@ -59,6 +70,8 @@ function BookingRow({
     "checked-in": "green",
     "checked-out": "silver",
   };
+  const { isDeleting, deleteBooking } = useDeleteBooking();
+  const navigate = useNavigate();
 
   return (
     <Table.Row>
@@ -85,6 +98,49 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
+
+      <Modal>
+        <Menus.Menu>
+          <Menus.Toggle id={bookingId} />
+
+          <Menus.List id={bookingId}>
+            <Menus.Button
+              icon={<HiEye />}
+              onClick={() => navigate(`/bookings/${bookingId}`)}
+            >
+              查看具体信息
+            </Menus.Button>
+            {status === "unconfirmed" && (
+              <Menus.Button
+                icon={<HiArrowDownOnSquare />}
+                onClick={() => navigate(`checkin/${bookingId}`)}
+              >
+                办理入住
+              </Menus.Button>
+            )}
+            {status === "checked-in" && (
+              <Menus.Button
+                icon={<HiArrowUpOnSquare />}
+                onClick={() => navigate(`checkout/${bookingId}`)}
+              >
+                办理退房
+              </Menus.Button>
+            )}
+
+            <Modal.Open opens="delete">
+              <Menus.Button icon={<HiTrash />}>删除</Menus.Button>
+            </Modal.Open>
+          </Menus.List>
+        </Menus.Menu>
+
+        <Modal.Window name="delete">
+          <ConfirmDelete
+            resourceName="预定信息"
+            onConfirm={() => deleteBooking(bookingId)}
+            disabled={isDeleting}
+          />
+        </Modal.Window>
+      </Modal>
     </Table.Row>
   );
 }

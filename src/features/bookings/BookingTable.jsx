@@ -1,14 +1,13 @@
-import BookingRow from "./BookingRow";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import BookingRow from "./BookingRow";
 import Spinner from "../../ui/Spinner";
-import { useBookings } from "./useBookings";
 import Pagination from "../../ui/Pagination";
-// import { useSearchParams } from "react-router-dom";
+
+import { useBookings } from "./useBookings";
 
 function BookingTable() {
   const { bookings, count, isLoading } = useBookings();
-  // const [searchParams] = useSearchParams();
 
   if (isLoading) return <Spinner />;
 
