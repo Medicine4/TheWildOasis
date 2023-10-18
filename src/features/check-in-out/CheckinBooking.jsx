@@ -25,6 +25,7 @@ const Box = styled.div`
 
 function CheckinBooking() {
   const [confirmPaid, setConfirmPaid] = useState(false);
+  const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
   const { isCheckingIn, checkin } = useCheckin();
   const moveBack = useMoveBack();
@@ -35,16 +36,29 @@ function CheckinBooking() {
     id: bookingId,
     guests,
     totalPrice,
-    // numGuests,
-    // hasBreakfast,
-    // numNights,
+    numGuests,
+    hasBreakfast,
+    numNights,
   } = booking;
+
+  const optionalBreakfastPrice = 15 * numGuests * numNights;
 
   if (isLoading || isCheckingIn) return <Spinner />;
 
   function handleCheckin() {
     if (!confirmPaid) return;
-    checkin(bookingId);
+    if (addBreakfast) {
+      checkin({
+        bookingId,
+        breakfast: {
+          hasBreakfast: true,
+          extrasPrice: optionalBreakfastPrice,
+          totalPrice: totalPrice + optionalBreakfastPrice,
+        },
+      });
+    } else {
+      checkin({ bookingId, breakfast: {} });
+    }
   }
 
   return (
@@ -56,6 +70,21 @@ function CheckinBooking() {
 
       <BookingDataBox booking={booking} />
 
+      {!hasBreakfast && (
+        <Box>
+          <Checkbox
+            checked={addBreakfast}
+            onChange={() => {
+              setAddBreakfast((add) => !add);
+              setConfirmPaid(false);
+            }}
+            id="breakfast"
+          >
+            是否添加早餐？ <span>{formatCurrency(15)}/人/餐</span>
+          </Checkbox>
+        </Box>
+      )}
+
       <Box>
         <Checkbox
           checked={confirmPaid}
@@ -63,8 +92,16 @@ function CheckinBooking() {
           id="confirm"
           disabled={confirmPaid}
         >
-          确认 <strong>{guests.fullName}</strong> 已支付{" "}
-          {formatCurrency(totalPrice)}
+          确认 {guests.fullName} 已支付{" "}
+          {!addBreakfast ? (
+            <span>{formatCurrency(totalPrice)}</span>
+          ) : (
+            <span>{formatCurrency(totalPrice + optionalBreakfastPrice)}</span>
+          )}
+          {addBreakfast &&
+            `(${formatCurrency(totalPrice)} + ${formatCurrency(
+              optionalBreakfastPrice
+            )})`}
         </Checkbox>
       </Box>
 

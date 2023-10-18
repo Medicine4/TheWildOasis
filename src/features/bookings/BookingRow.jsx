@@ -110,14 +110,14 @@ function BookingRow({
             >
               查看具体信息
             </Menus.Button>
-            {/* {status === "unconfirmed" && ( */}
-            <Menus.Button
-              icon={<HiArrowDownOnSquare />}
-              onClick={() => navigate(`/checkin/${bookingId}`)}
-            >
-              办理入住
-            </Menus.Button>
-            {/* )} */}
+            {status === "unconfirmed" && (
+              <Menus.Button
+                icon={<HiArrowDownOnSquare />}
+                onClick={() => navigate(`/checkin/${bookingId}`)}
+              >
+                办理入住
+              </Menus.Button>
+            )}
             {status === "checked-in" && (
               <Menus.Button icon={<HiArrowUpOnSquare />}>办理退房</Menus.Button>
             )}

@@ -24,13 +24,20 @@ const StyledCheckbox = styled.div`
     align-items: center;
     gap: 0.8rem;
   }
+
+  & label span {
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: 700;
+    margin: 0 4px;
+  }
 `;
 
 Checkbox.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  id: PropTypes.number,
+  id: PropTypes.string,
   children: PropTypes.any,
 };
 
