@@ -14,6 +14,7 @@ import Checkbox from "../../ui/Checkbox";
 import { formatCurrency } from "../../utils/helpers";
 import { useEffect, useState } from "react";
 import { useCheckin } from "./useCheckin";
+import { useSettings } from "../settings/useSettings";
 
 const Box = styled.div`
   /* Box */
@@ -28,9 +29,12 @@ function CheckinBooking() {
   const [addBreakfast, setAddBreakfast] = useState(false);
   const { booking, isLoading } = useBooking();
   const { isCheckingIn, checkin } = useCheckin();
+  const { settings, isLoading: isLoadingSettings } = useSettings();
   const moveBack = useMoveBack();
 
   useEffect(() => setConfirmPaid(booking?.isPaid ?? false), [booking]);
+
+  if (isLoading || isLoadingSettings) return <Spinner />;
 
   const {
     id: bookingId,
@@ -41,9 +45,8 @@ function CheckinBooking() {
     numNights,
   } = booking;
 
-  const optionalBreakfastPrice = 15 * numGuests * numNights;
-
-  if (isLoading || isCheckingIn) return <Spinner />;
+  const optionalBreakfastPrice =
+    settings.breakfastPrice * numGuests * numNights;
 
   function handleCheckin() {
     if (!confirmPaid) return;
@@ -90,7 +93,7 @@ function CheckinBooking() {
           checked={confirmPaid}
           onChange={() => setConfirmPaid((confirmPaid) => !confirmPaid)}
           id="confirm"
-          disabled={confirmPaid}
+          disabled={confirmPaid || isCheckingIn}
         >
           确认 {guests.fullName} 已支付{" "}
           {!addBreakfast ? (
@@ -106,7 +109,7 @@ function CheckinBooking() {
       </Box>
 
       <ButtonGroup>
-        <Button disabled={!confirmPaid} onClick={handleCheckin}>
+        <Button disabled={!confirmPaid || isCheckingIn} onClick={handleCheckin}>
           #{bookingId} 办理入住
         </Button>
         <Button variation="secondary" onClick={moveBack}>
