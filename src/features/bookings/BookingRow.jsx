@@ -19,6 +19,7 @@ import { formatDistanceFromNow } from "../../utils/helpers";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
 import { useNavigate } from "react-router-dom";
+import { useCheckout } from "../check-in-out/useCheckout";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -71,6 +72,7 @@ function BookingRow({
     "checked-out": "silver",
   };
   const { isDeleting, deleteBooking } = useDeleteBooking();
+  const { checkout, isCheckingout } = useCheckout();
   const navigate = useNavigate();
 
   return (
@@ -119,7 +121,13 @@ function BookingRow({
               </Menus.Button>
             )}
             {status === "checked-in" && (
-              <Menus.Button icon={<HiArrowUpOnSquare />}>办理退房</Menus.Button>
+              <Menus.Button
+                icon={<HiArrowUpOnSquare />}
+                onClick={() => checkout(bookingId)}
+                disabled={isCheckingout}
+              >
+                办理退房
+              </Menus.Button>
             )}
 
             <Modal.Open opens="delete">
