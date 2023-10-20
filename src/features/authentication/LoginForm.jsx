@@ -12,7 +12,7 @@ function LoginForm() {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormRowVertical label="Email address">
+      <FormRowVertical label="邮箱">
         <Input
           type="email"
           id="email"
@@ -22,7 +22,7 @@ function LoginForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormRowVertical>
-      <FormRowVertical label="Password">
+      <FormRowVertical label="密码">
         <Input
           type="password"
           id="password"
@@ -32,7 +32,7 @@ function LoginForm() {
         />
       </FormRowVertical>
       <FormRowVertical>
-        <Button size="large">Login</Button>
+        <Button size="large">登录</Button>
       </FormRowVertical>
     </Form>
   );
