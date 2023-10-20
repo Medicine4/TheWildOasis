@@ -40,10 +40,10 @@ function ConfirmDelete({ resourceName, onConfirm, disabled, onCloseModal }) {
           disabled={disabled}
           onClick={onCloseModal}
         >
-          Cancel
+          取消
         </Button>
         <Button variation="danger" disabled={disabled} onClick={onConfirm}>
-          Delete
+          删除
         </Button>
       </div>
     </StyledConfirmDelete>

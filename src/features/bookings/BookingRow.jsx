@@ -110,7 +110,7 @@ function BookingRow({
               icon={<HiEye />}
               onClick={() => navigate(`/bookings/${bookingId}`)}
             >
-              查看具体信息
+              具体信息
             </Menus.Button>
             {status === "unconfirmed" && (
               <Menus.Button
@@ -131,14 +131,14 @@ function BookingRow({
             )}
 
             <Modal.Open opens="delete">
-              <Menus.Button icon={<HiTrash />}>删除</Menus.Button>
+              <Menus.Button icon={<HiTrash />}>删除订单</Menus.Button>
             </Modal.Open>
           </Menus.List>
         </Menus.Menu>
 
         <Modal.Window name="delete">
           <ConfirmDelete
-            resourceName="预定信息"
+            resourceName={`订单 #${bookingId}`}
             onConfirm={() => deleteBooking(bookingId)}
             disabled={isDeleting}
           />
