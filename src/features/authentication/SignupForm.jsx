@@ -26,13 +26,13 @@ function SignupForm() {
     );
   }
 
-  function onError(error) {
-    console.log(error);
-  }
+  // function onError(error) {
+  //   console.log(error);
+  // }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
-      <FormRow label="姓名" error={errors?.fullName?.message}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <FormRow label="用户名" error={errors?.fullName?.message}>
         <Input
           type="text"
           id="fullName"
@@ -80,9 +80,8 @@ function SignupForm() {
           disabled={isLoading}
           {...register("passwordConfirm", {
             required: "必填",
-            validate: (value) => {
-              value === getValues().password || "与新密码不同";
-            },
+            validate: (value) =>
+              value === getValues().password || "重复输入有误",
           })}
         />
       </FormRow>
