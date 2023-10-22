@@ -24,11 +24,13 @@ const Avatar = styled.img`
 
 function UserAvatar() {
   const { user } = useUser();
-  const { fullName, avater } = user.user_metadata;
+  const { fullName, avatar } = user.user_metadata;
+  console.log(fullName);
+  console.log(avatar);
 
   return (
     <StyledUserAvatar>
-      <Avatar src={avater || "default-user.jpg"} alt={`${fullName}的头像`} />
+      <Avatar src={avatar || "default-user.jpg"} alt={`${fullName}的头像`} />
       <span>{fullName}</span>
     </StyledUserAvatar>
   );

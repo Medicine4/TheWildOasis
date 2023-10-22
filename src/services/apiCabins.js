@@ -45,9 +45,7 @@ export async function createEditCabin(newCabin, id) {
   if (StorageError) {
     await supabase.from("cabins").delete().eq("id", data.id);
     console.log(StorageError);
-    throw new Error(
-      "Cabin image could not be uploaded and cabin was not created!"
-    );
+    throw new Error("房型图片上传失败，且成功创建的新房型已被删除!");
   }
 
   return data;
