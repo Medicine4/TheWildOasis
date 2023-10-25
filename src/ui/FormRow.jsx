@@ -40,7 +40,7 @@ const Error = styled.span`
 FormRow.propTypes = {
   label: PropTypes.string,
   error: PropTypes.string,
-  children: PropTypes.element,
+  children: PropTypes.any,
 };
 
 function FormRow({ label, error, children }) {

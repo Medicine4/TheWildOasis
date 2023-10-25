@@ -51,7 +51,7 @@ const Value = styled.p`
 Stat.propTypes = {
   icon: PropTypes.node,
   title: PropTypes.string,
-  value: PropTypes.number,
+  value: PropTypes.any,
   color: PropTypes.string,
 };
 
