@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
@@ -25,6 +26,12 @@ function UpdateUserDataForm() {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (email === "medicinee@qq.com") {
+      toast.error("当前账户不支持修改信息，请重新创建用户使用此功能！");
+      return;
+    }
+
     if (!fullName) return;
     updateUser(
       { fullName, avatar },

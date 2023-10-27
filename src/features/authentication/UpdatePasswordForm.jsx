@@ -3,16 +3,25 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
+import toast from "react-hot-toast";
 
 import { useUpdateUser } from "./useUpdateUser";
+import { useUser } from "./useUser";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
+  const { user } = useUser();
+
   const { updateUser, isUpdating } = useUpdateUser();
 
   function onSubmit({ password }) {
+    if (user.email === "medicinee@qq.com") {
+      toast.error("当前账户不支持修改密码，请重新创建用户使用此功能！");
+      return;
+    }
+
     updateUser(
       { password },
       {
