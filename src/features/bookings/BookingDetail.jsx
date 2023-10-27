@@ -8,6 +8,7 @@ import ButtonGroup from "../../ui/ButtonGroup";
 import Button from "../../ui/Button";
 import ButtonText from "../../ui/ButtonText";
 import Spinner from "../../ui/Spinner";
+import Empty from "../../ui/Empty";
 
 import { useMoveBack } from "../../hooks/useMoveBack";
 import { useBooking } from "./useBooking";
@@ -33,6 +34,7 @@ function BookingDetail() {
 
   if (isLoading) return <Spinner />;
 
+  if (!booking) return <Empty resource="此订单" />;
   const { status, id: bookingId } = booking;
 
   const statusToTagName = {
