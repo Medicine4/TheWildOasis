@@ -94,7 +94,7 @@ const startDataDark = [
     color: "#4d7c0f",
   },
   {
-    duration: "6-7 nights",
+    duration: "6-7晚",
     value: 0,
     color: "#15803d",
   },
