@@ -12,8 +12,8 @@ export function useUpdateUser() {
         toast.success("用户信息更新成功！");
     },
     onError: (err) => {
-      console.log(err);
-      toast.error("用户信息更新失败！");
+      // console.log(err);
+      toast.error(err.message);
     },
   });
 
