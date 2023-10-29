@@ -12,7 +12,7 @@ export function useSignup() {
     },
     onError: (err) => {
       console.log(err);
-      toast.error("用户创建失败");
+      toast.error("用户创建失败😭");
     },
   });
 

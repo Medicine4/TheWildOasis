@@ -61,3 +61,32 @@ export async function deleteCabin(id) {
 
   return data;
 }
+
+export async function getEmptyCabin({ start, end }) {
+  // 1. 按照给定日期筛选已有订单的cabinId
+  const { data: cabinId, error: cabinIdError } = await supabase
+    .from("bookings")
+    .select("cabinId")
+    .filter("startDate", "between", [start, end])
+    .or("endDate", "between", [start, end]);
+
+  if (cabinIdError) {
+    console.log(cabinIdError);
+  }
+
+  return cabinId;
+
+  // cabinId去重
+  // const uniqueCabinId = Array.from(new Set(cabinId.map((id) => id)));
+
+  // 2. 反向操作，从所有cabin里删除已有订单的cabin
+  // 3. 返回空的cabin
+}
+
+// const { data, error } = await supabase
+// .from("bookings")
+// .select("*, guests(fullName, nationality, countryFlag)")
+// .or(
+//   `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
+// )
+// .order("created_at");

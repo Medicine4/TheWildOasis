@@ -57,7 +57,7 @@ const Button = styled.button`
 const ModalContext = createContext();
 
 Modal.propTypes = {
-  children: PropTypes.array,
+  children: PropTypes.any,
 };
 
 function Modal({ children }) {

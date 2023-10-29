@@ -130,3 +130,41 @@ export async function deleteBooking(id) {
   }
   return data;
 }
+
+export async function createBooking(newBooking) {
+  // 分割数据
+  // const { guest, booking } = newBooking;
+
+  // 1. 创建用户
+  // 1.1 根据国家创建国旗图url
+  // const countryCode = countryList.getCountry(guest.nationality)?.code;
+  // const countryFlag = `https://flagcdn.com/${countryCode}.svg`;
+
+  // // 1.2 上传guest
+  // const { data: createdGuest, error: guestError } = await supabase
+  //   .from("guests")
+  //   .insert([{ ...guest, countryFlag }])
+  //   .select();
+
+  // if (guestError) {
+  //   console.log(guestError);
+  //   throw new Error("房客信息创建失败！");
+  // }
+
+  // 2. 获取新创建的用户id
+  // const guestId = createdGuest.id;
+
+  // 3. 用新创建的用户创建一个新的订单
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert([{ ...newBooking, status: "unconfirmed", idPaid: false }])
+    .select();
+
+  // 4. 如果新订单创建失败，则删除原房客信息
+  if (error) {
+    console.log(error);
+    throw new Error("订单创建失败！");
+  }
+
+  return data;
+}

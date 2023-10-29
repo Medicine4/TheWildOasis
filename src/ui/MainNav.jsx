@@ -6,6 +6,7 @@ import {
   HiOutlineHome,
   HiOutlineHomeModern,
   HiOutlineUsers,
+  HiOutlineIdentification,
 } from "react-icons/hi2";
 
 const NavList = styled.ul`
@@ -73,6 +74,12 @@ function MainNav() {
           <StyledNavLink to="cabins">
             <HiOutlineHomeModern />
             <span>房型</span>
+          </StyledNavLink>
+        </li>
+        <li>
+          <StyledNavLink to="guests">
+            <HiOutlineIdentification />
+            <span>房客</span>
           </StyledNavLink>
         </li>
         <li>

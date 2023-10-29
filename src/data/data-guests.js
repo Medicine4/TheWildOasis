@@ -10,7 +10,7 @@ export const guests = [
     countryFlag: "https://flagcdn.com/pt.svg",
   },
   {
-    fullName: "张奥科",
+    fullName: "张三",
     tel: "18364929373",
     nationality: "China",
     nationalID: "4534593454",
@@ -33,7 +33,7 @@ export const guests = [
   {
     fullName: "Jonas Anderson",
     tel: "15362789456",
-    nationality: "Bolivia (Plurinational State of)",
+    nationality: "Bolivia, Plurinational State of",
     nationalID: "0988520146",
     countryFlag: "https://flagcdn.com/bo.svg",
   },
