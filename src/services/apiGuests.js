@@ -2,7 +2,7 @@ import { PAGE_SIZE } from "../utils/constants";
 import supabase from "./supabase";
 import countryList from "country-list";
 
-export async function getGuests({ sortBy, page }) {
+export async function getGuests({ sortBy, page, searchFullName, searchTel }) {
   let query = supabase.from("guests").select("*", { count: "exact" });
 
   // 1) SoryBy
@@ -12,7 +12,17 @@ export async function getGuests({ sortBy, page }) {
     });
   }
 
-  // 2) Pagination
+  // 2) SearchFullName
+  if (searchFullName) {
+    query = query.ilike("fullName", `%${searchFullName}%`);
+  }
+
+  // 3) SearchTel
+  if (searchTel) {
+    query = query.ilike("tel", `%${searchTel}%`);
+  }
+
+  // 4) Pagination
   if (page) {
     const from = (page - 1) * PAGE_SIZE;
     const to = page * PAGE_SIZE - 1;
@@ -42,7 +52,7 @@ export async function deleteGuest(id) {
 
 export async function createGuest(newGuest) {
   // 1. 根据房客信息创建国旗url
-  const countryCode = countryList.getCode(newGuest.nationality);
+  const countryCode = countryList.getCode(newGuest.nationality)?.toLowerCase();
   const countryFlag = `https://flagcdn.com/${countryCode}.svg`;
 
   // 2. 上传guest
@@ -62,7 +72,7 @@ export async function createGuest(newGuest) {
 
 export async function editGuest(newGuest, id) {
   // 1. 根据房客信息创建国旗url
-  const countryCode = countryList.getCode(newGuest.nationality).toLowerCase();
+  const countryCode = countryList.getCode(newGuest.nationality)?.toLowerCase();
   const countryFlag = `https://flagcdn.com/${countryCode}.svg`;
 
   // 2. 上传guest

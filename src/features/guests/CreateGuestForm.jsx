@@ -46,7 +46,6 @@ function CreateGuestForm({ guestToedit = {}, onCloseModal }) {
   const isWorking = isEditing || isCreating;
 
   function onSubmit(data) {
-    console.log(data);
     if (isEditSession) {
       editGuest(
         { newGuest: { ...data }, id: editId },
@@ -104,6 +103,7 @@ function CreateGuestForm({ guestToedit = {}, onCloseModal }) {
         <Select
           id="nationality"
           disabled={isWorking}
+          defaultValue={editValues.nationality}
           {...register("nationality")}
         >
           {counrties.map((cou) => (
@@ -111,7 +111,7 @@ function CreateGuestForm({ guestToedit = {}, onCloseModal }) {
               key={cou.value}
               value={cou.value}
               name={cou.value}
-              selected={editValues.nationality === cou.value}
+              // selected={editValues.nationality === cou.value}
             >
               {cou.label}
             </option>

@@ -110,7 +110,7 @@ Body.propTypes = {
 };
 
 function Body({ data, render }) {
-  if (!data.length) return <Empty>暂无数据</Empty>;
+  if (!data?.length) return <Empty>暂无数据</Empty>;
 
   return <StyledBody>{data.map(render)}</StyledBody>;
 }

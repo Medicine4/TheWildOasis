@@ -16,8 +16,10 @@ export function useGuests() {
   const page = !searchParams.get("page") ? 1 : Number(searchParams.get("page"));
 
   // 3) Find by name
+  const searchFullName = searchParams.get("fullName") || "";
 
-  // 4) Find by nationalID
+  // 4) Find by tel
+  const searchTel = searchParams.get("tel") || "";
 
   // 5) Query
   const {
@@ -25,8 +27,8 @@ export function useGuests() {
     data: { data: guests, count } = {},
     error,
   } = useQuery({
-    queryKey: ["guests", sortBy, page],
-    queryFn: () => getGuests({ sortBy, page }),
+    queryKey: ["guests", sortBy, page, searchFullName, searchTel],
+    queryFn: () => getGuests({ sortBy, page, searchFullName, searchTel }),
   });
 
   // 6) Pre-Fetching
@@ -34,15 +36,17 @@ export function useGuests() {
 
   if (page < pageCount) {
     queryClient.prefetchQuery({
-      queryKey: ["guests", sortBy, page + 1],
-      queryFn: () => getGuests({ sortBy, page: page + 1 }),
+      queryKey: ["guests", sortBy, page + 1, searchFullName, searchTel],
+      queryFn: () =>
+        getGuests({ sortBy, page: page + 1, searchFullName, searchTel }),
     });
   }
 
   if (page > 1) {
     queryClient.prefetchQuery({
-      queryKey: ["guests", sortBy, page - 1],
-      queryFn: () => getGuests({ sortBy, page: page - 1 }),
+      queryKey: ["guests", sortBy, page - 1, searchFullName, searchTel],
+      queryFn: () =>
+        getGuests({ sortBy, page: page - 1, searchFullName, searchTel }),
     });
   }
 
