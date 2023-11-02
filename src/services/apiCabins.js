@@ -1,3 +1,4 @@
+// import { getToday } from "../utils/helpers";
 import supabase, { supabaseUrl } from "./supabase";
 
 export async function getCabins() {
@@ -62,25 +63,19 @@ export async function deleteCabin(id) {
   return data;
 }
 
-export async function getEmptyCabin({ start, end }) {
-  // 1. 按照给定日期筛选已有订单的cabinId
-  const { data: cabinId, error: cabinIdError } = await supabase
+export async function getNotEmptyCabin(startDate, endDate) {
+  const { data, error: cabinIdError } = await supabase
     .from("bookings")
     .select("cabinId")
-    .filter("startDate", "between", [start, end])
-    .or("endDate", "between", [start, end]);
+    .or(
+      `and(startDate.gt.${startDate},startDate.lt.${endDate}),and(endDate.gt.${startDate},endDate.lt.${endDate}),and(startDate.eq.${startDate}),and(endDate.eq.${endDate}),and(startDate.lt.${startDate},endDate.gt.${endDate})`
+    );
 
   if (cabinIdError) {
     console.log(cabinIdError);
   }
 
-  return cabinId;
-
-  // cabinId去重
-  // const uniqueCabinId = Array.from(new Set(cabinId.map((id) => id)));
-
-  // 2. 反向操作，从所有cabin里删除已有订单的cabin
-  // 3. 返回空的cabin
+  return data;
 }
 
 // const { data, error } = await supabase

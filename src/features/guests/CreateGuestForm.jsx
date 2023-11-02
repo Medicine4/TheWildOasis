@@ -9,18 +9,7 @@ import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import Button from "../../ui/Button";
 import Form from "../../ui/Form";
-import styled from "styled-components";
-
-const Select = styled.select`
-  font-size: 1.4rem;
-  padding: 0.8rem 1.2rem;
-  border: 1px solid var(--color-grey-300);
-
-  border-radius: var(--border-radius-sm);
-  background-color: var(--color-grey-0);
-  font-weight: 500;
-  box-shadow: var(--shadow-sm);
-`;
+import FormSelect from "../../ui/FormSelect";
 
 CreateGuestForm.propTypes = {
   guestToedit: PropTypes.object,
@@ -55,7 +44,6 @@ function CreateGuestForm({ guestToedit = {}, onCloseModal }) {
           },
         }
       );
-      console.log(data);
     } else {
       createGuest(
         { ...data },
@@ -100,23 +88,12 @@ function CreateGuestForm({ guestToedit = {}, onCloseModal }) {
       </FormRow>
 
       <FormRow label="国籍" error={errors?.nationality?.message}>
-        <Select
-          id="nationality"
-          disabled={isWorking}
-          defaultValue={editValues.nationality}
-          {...register("nationality")}
-        >
-          {counrties.map((cou) => (
-            <option
-              key={cou.value}
-              value={cou.value}
-              name={cou.value}
-              // selected={editValues.nationality === cou.value}
-            >
-              {cou.label}
-            </option>
-          ))}
-        </Select>
+        <FormSelect
+          options={counrties}
+          value={editValues.nationality}
+          register={register}
+          name="nationality"
+        />
       </FormRow>
 
       <FormRow label="身份证号" error={errors?.nationalID?.message}>

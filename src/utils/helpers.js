@@ -25,6 +25,11 @@ export const getToday = function (options = {}) {
   return today.toISOString();
 };
 
+export const dateToISO = function (date) {
+  date.setHours(8, 0, 0, 0); // 中国时区设置为8点，这样转换为UTC世界时就是0点。如果不这样做，中国11月2日0点转UTC就是11月1日16点，再转ISO就会早一天。
+  return date.toISOString().slice(0, -1);
+};
+
 export const formatCurrency = (value) =>
   new Intl.NumberFormat("zh-CN", { style: "currency", currency: "CNY" }).format(
     value

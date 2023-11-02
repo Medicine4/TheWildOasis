@@ -1,10 +1,12 @@
 import Filter from "../../ui/Filter";
 import SortBy from "../../ui/SortBy";
 import TableOperations from "../../ui/TableOperations";
+import TimeSelect from "../../ui/TimeSelect";
 
 function CabinTableOperation() {
   return (
     <TableOperations>
+      <TimeSelect />
       <Filter
         filterField="discount"
         options={[

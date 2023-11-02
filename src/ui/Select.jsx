@@ -23,7 +23,7 @@ Select.propTypes = {
 
 function Select({ options, value, onChange, ...props }) {
   return (
-    <StyledSelect onChange={onChange} value={value} {...props}>
+    <StyledSelect onChange={onChange} defaultValue={value} {...props}>
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}

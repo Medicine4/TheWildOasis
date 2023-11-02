@@ -3,13 +3,19 @@ import CabinRow from "./CabinRow";
 import { useCabins } from "./useCabins";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import Empty from "../../ui/Empty";
 import { useSearchParams } from "react-router-dom";
+import { useGetNotEmptyCabin } from "./useGetEmptyCabin";
 
 function CabinTable() {
   const { isLoading, error, cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
-  if (isLoading) return <Spinner />;
+  const { data: notEmptyCabinId, isLoading: isLoading0 } =
+    useGetNotEmptyCabin();
+
+  if (isLoading || isLoading0) return <Spinner />;
+  if (!cabins) return <Empty resource="房型" />;
   if (error) return alert("error!");
 
   // 1) Filter 过滤
@@ -31,6 +37,12 @@ function CabinTable() {
     (a, b) => (a[field] - b[field]) * modifier
   );
 
+  // 3) 排除所选日期内的非空cabin
+  const notEmptyCabinIdArray = notEmptyCabinId.map((id) => id.cabinId);
+  const emptyCabins = sortedCabins.filter(
+    (cabin) => !notEmptyCabinIdArray.includes(cabin.id)
+  );
+
   return (
     <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
       <Table.Header>
@@ -44,7 +56,7 @@ function CabinTable() {
 
       <Menus>
         <Table.Body
-          data={sortedCabins}
+          data={emptyCabins}
           render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
         />
       </Menus>

@@ -49,7 +49,7 @@ export const guests = [
   {
     fullName: "Emma Watson",
     tel: "14563984933",
-    nationality: "United Kingdom",
+    nationality: "United Kingdom of Great Britain and Northern Ireland",
     nationalID: "1234578901",
     countryFlag: "https://flagcdn.com/gb.svg",
   },
@@ -105,7 +105,7 @@ export const guests = [
   {
     fullName: "John Doe",
     tel: "18237552091",
-    nationality: "United States",
+    nationality: "United States of America",
     nationalID: "3245908744",
     countryFlag: "https://flagcdn.com/us.svg",
   },
@@ -168,14 +168,14 @@ export const guests = [
   {
     fullName: "Julie Nguyen",
     tel: "10928374623",
-    nationality: "Vietnam",
+    nationality: "Viet Nam",
     nationalID: "5678901234",
     countryFlag: "https://flagcdn.com/vn.svg",
   },
   {
     fullName: "Sara Lee",
     tel: "18273648019",
-    nationality: "South Korea",
+    nationality: "Korea, Republic of",
     nationalID: "6789012345",
     countryFlag: "https://flagcdn.com/kr.svg",
   },
@@ -210,8 +210,8 @@ export const guests = [
   {
     fullName: "Mei Chen",
     tel: "19283749101",
-    nationality: "Taiwan",
+    nationality: "China",
     nationalID: "3456117890",
-    countryFlag: "https://flagcdn.com/tw.svg",
+    countryFlag: "https://flagcdn.com/cn.svg",
   },
 ];
